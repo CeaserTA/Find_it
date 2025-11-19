@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart'; 
 
+
+// to add a smooth fade in animation when navigating to HomeScreen
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 

@@ -12,20 +12,21 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
   late TabController _tabController;
   int _selectedCategoryIndex = 0;
   bool _isDarkMode = false;
+  int _currentIndex = 0; // Track the selected bottom navigation item
 
   final List<String> _categories = ['All', 'Electronics', 'Keys', 'Wallets', 'Bags'];
 
   // Mock Data
   final Map<String, List<Map<String, String>>> _mockData = {
     'Lost': [
-      {'image': 'assets/images/wallet.jpg', 'title': 'Black Leather Wallet', 'location': 'Central Park', 'category': 'Wallets'},
-      {'image': 'assets/images/phone.jpg', 'title': 'iPhone 14 Pro', 'location': 'Main Street Library', 'category': 'Electronics'},
-      {'image': 'assets/images/keys.jpg', 'title': 'Car and House Keys', 'location': 'Oakwood Avenue', 'category': 'Keys'},
-      {'image': 'assets/images/backpack.jpg', 'title': 'Blue Backpack', 'location': 'Line 2 Subway', 'category': 'Bags'},
+      {'image': 'assets/images/wallet.jpg', 'title': 'Black Leather Wallet', 'location': 'ADB  Lab1', 'category': 'Wallets'},
+      {'image': 'assets/images/phone.jpg', 'title': 'iPhone 14 Pro', 'location': 'Main Library Level2', 'category': 'Electronics'},
+      {'image': 'assets/images/keys.jpg', 'title': 'Car and House Keys', 'location': 'Block 12', 'category': 'Keys'},
+      {'image': 'assets/images/backpack.jpg', 'title': 'Blue Backpack', 'location': 'Demo Lab', 'category': 'Bags'},
     ],
     'Found': [
-      {'image': 'assets/images/wallet.jpg', 'title': 'Leather Wallet Found', 'location': 'City Mall', 'category': 'Wallets'},
-      {'image': 'assets/images/phone.jpg', 'title': 'iPhone 13 Found', 'location': 'Bus Terminal', 'category': 'Electronics'},
+      {'image': 'assets/images/wallet.jpg', 'title': 'Leather Wallet Found', 'location': 'ADB Lab3', 'category': 'Wallets'},
+      {'image': 'assets/images/phone.jpg', 'title': 'iPhone 13 Found', 'location': 'Main Library Level1 ', 'category': 'Electronics'},
     ],
   };
 
@@ -45,10 +46,9 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Theme(
+      data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      child: Scaffold(
         backgroundColor: _isDarkMode ? Colors.black : Colors.white,
         appBar: AppBar(
           backgroundColor: _isDarkMode ? Colors.grey[900] : Colors.white,
@@ -72,20 +72,17 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
             ],
           ),
         ),
-
-        //  Navigation Drawer
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              // Drawer Header
               UserAccountsDrawerHeader(
                 accountName: const Text("Nalubiri Victoria"),
                 accountEmail: const Text("victoria@gmail.com"),
                 currentAccountPicture: const CircleAvatar(
                   backgroundImage: AssetImage("assets/images/profile.jpg"),
                 ),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Color(0xFF94A1DF), Color(0xFF94A1DF)],
                     begin: Alignment.topLeft,
@@ -93,13 +90,10 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
                   ),
                 ),
               ),
-
               ListTile(
                 leading: const Icon(Icons.home_outlined),
                 title: const Text("Home"),
-                onTap: () {
-                  Navigator.pushNamed(context, '/home');
-                },
+                onTap: () => Navigator.pop(context),
               ),
               ListTile(
                 leading: const Icon(Icons.info_outline),
@@ -142,8 +136,6 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
             ],
           ),
         ),
-
-        // Tab Body
         body: TabBarView(
           controller: _tabController,
           children: [
@@ -151,35 +143,27 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
             _buildFeedTab("Found"),
           ],
         ),
-
-        // Floating Action Button
         floatingActionButton: FloatingActionButton(
           backgroundColor: const Color(0xFF94A1DF),
           onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (context) => ListView(
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.report_gmailerrorred_outlined),
-                    title: const Text('Report Lost Item'),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.add_box_outlined),
-                    title: const Text('Report Found Item'),
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            );
+            final currentTab = _tabController.index == 0 ? "Lost" : "Found";
+            Navigator.pushNamed(context, '/post-item', arguments: currentTab);
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),
-
-        // Bottom Navigation
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 0,
+          currentIndex: _currentIndex, // Track the selected index
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+            if (index == 2) { // Index 2 is the Profile item
+              Navigator.pushNamed(context, '/profile');
+            }
+            else if (index == 1) { // Index 1 is the Notifications item
+              Navigator.pushNamed(context, '/notifications');
+            }
+          },
           selectedItemColor: const Color(0xFF94A1DF),
           unselectedItemColor: Colors.grey,
           items: const [
@@ -198,7 +182,6 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
 
     return Column(
       children: [
-        // Search Bar
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: TextField(
@@ -214,8 +197,6 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
             ),
           ),
         ),
-
-        // Categories
         Container(
           height: 45,
           margin: const EdgeInsets.only(bottom: 8),
@@ -249,8 +230,6 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
             },
           ),
         ),
-
-        // Feed List
         Expanded(
           child: filteredItems.isEmpty
               ? const Center(child: Text("No items available"))
@@ -297,7 +276,11 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
                           ],
                         ),
                         onTap: () {
-                          // Navigate to item detail
+                          if (tabName == "Found") {
+                            Navigator.pushNamed(context, '/item-detail', arguments: item);
+                          } else if (tabName == "Lost") {
+                            Navigator.pushNamed(context, '/lost-item-detail', arguments: item);
+                          }
                         },
                       ),
                     );

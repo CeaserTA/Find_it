@@ -1,6 +1,12 @@
 import 'package:find_it/screens/home_screen.dart';
 import 'package:find_it/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:find_it/screens/item_details_screen.dart';
+import 'package:find_it/screens/lost_item_details_screen.dart';
+import 'package:find_it/screens/post_item_screen.dart';
+import 'package:find_it/screens/profile_screen.dart';
+import 'package:find_it/screens/notifications_screen.dart';
+
 void main() {
   runApp( const MyApp());
 }
@@ -19,6 +25,16 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) =>  SplashScreen(), 
         '/home': (context) =>  HomeFeedScreen(), 
+
+        '/item-detail': (context) =>  FoundItemDetailScreen(item: ModalRoute.of(context)!.settings.arguments as Map<String, String>), 
+        '/lost-item-detail': (context) =>  LostItemDetailScreen(item: ModalRoute.of(context)!.settings.arguments as Map<String, String>),
+        '/profile': (context) =>  ProfileScreen(),
+
+        '/post-item': (context) => PostItemScreen(
+            tab: ModalRoute.of(context)!.settings.arguments as String?), 
+
+
+        '/notifications': (context) => const NotificationScreen(),
         
       },
       //home: HomeFeedScreen(),
