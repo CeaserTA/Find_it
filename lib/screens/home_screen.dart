@@ -14,19 +14,55 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
   bool _isDarkMode = false;
   int _currentIndex = 0; // Track the selected bottom navigation item
 
-  final List<String> _categories = ['All', 'Electronics', 'Keys', 'Wallets', 'Bags'];
+  final List<String> _categories = [
+    'All',
+    'Electronics',
+    'Keys',
+    'Wallets',
+    'Bags',
+  ];
 
   // Mock Data
   final Map<String, List<Map<String, String>>> _mockData = {
     'Lost': [
-      {'image': 'assets/images/wallet.jpg', 'title': 'Black Leather Wallet', 'location': 'ADB  Lab1', 'category': 'Wallets'},
-      {'image': 'assets/images/phone.jpg', 'title': 'iPhone 14 Pro', 'location': 'Main Library Level2', 'category': 'Electronics'},
-      {'image': 'assets/images/keys.jpg', 'title': 'Car and House Keys', 'location': 'Block 12', 'category': 'Keys'},
-      {'image': 'assets/images/backpack.jpg', 'title': 'Blue Backpack', 'location': 'Demo Lab', 'category': 'Bags'},
+      {
+        'image': 'assets/images/wallet.jpg',
+        'title': 'Black Leather Wallet',
+        'location': 'ADB  Lab1',
+        'category': 'Wallets',
+      },
+      {
+        'image': 'assets/images/phone.jpg',
+        'title': 'iPhone 14 Pro',
+        'location': 'Main Library Level2',
+        'category': 'Electronics',
+      },
+      {
+        'image': 'assets/images/keys.jpg',
+        'title': 'Car and House Keys',
+        'location': 'Block 12',
+        'category': 'Keys',
+      },
+      {
+        'image': 'assets/images/backpack.jpg',
+        'title': 'Blue Backpack',
+        'location': 'Demo Lab',
+        'category': 'Bags',
+      },
     ],
     'Found': [
-      {'image': 'assets/images/wallet.jpg', 'title': 'Leather Wallet Found', 'location': 'ADB Lab3', 'category': 'Wallets'},
-      {'image': 'assets/images/phone.jpg', 'title': 'iPhone 13 Found', 'location': 'Main Library Level1 ', 'category': 'Electronics'},
+      {
+        'image': 'assets/images/wallet.jpg',
+        'title': 'Leather Wallet Found',
+        'location': 'ADB Lab3',
+        'category': 'Wallets',
+      },
+      {
+        'image': 'assets/images/phone.jpg',
+        'title': 'iPhone 13 Found',
+        'location': 'Main Library Level1 ',
+        'category': 'Electronics',
+      },
     ],
   };
 
@@ -40,7 +76,9 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
     final items = _mockData[tab] ?? [];
     if (_selectedCategoryIndex == 0) return items; // "All"
     return items
-        .where((item) => item['category'] == _categories[_selectedCategoryIndex])
+        .where(
+          (item) => item['category'] == _categories[_selectedCategoryIndex],
+        )
         .toList();
   }
 
@@ -99,27 +137,30 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
                 leading: const Icon(Icons.info_outline),
                 title: const Text("About"),
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("About page coming soon...")),
-                  );
+                  Navigator.pop(context);
+                  Future.delayed(const Duration(milliseconds: 200), () {
+                    Navigator.pushNamed(context, '/about');
+                  });
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.help_outline),
                 title: const Text("Help & Feedback"),
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Help & Feedback page coming soon...")),
-                  );
+                   Navigator.pop(context);
+                  Future.delayed(const Duration(milliseconds: 200), () {
+                    Navigator.pushNamed(context, '/help');
+                  });
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.settings_outlined),
                 title: const Text("Settings"),
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Settings coming soon...")),
-                  );
+                  Navigator.pop(context);
+                  Future.delayed(const Duration(milliseconds: 200), () {
+                    Navigator.pushNamed(context, '/settings');
+                  });
                 },
               ),
               const Divider(),
@@ -138,10 +179,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
         ),
         body: TabBarView(
           controller: _tabController,
-          children: [
-            _buildFeedTab("Lost"),
-            _buildFeedTab("Found"),
-          ],
+          children: [_buildFeedTab("Lost"), _buildFeedTab("Found")],
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: const Color(0xFF94A1DF),
@@ -157,19 +195,29 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
             setState(() {
               _currentIndex = index;
             });
-            if (index == 2) { // Index 2 is the Profile item
+            if (index == 2) {
+              // Index 2 is the Profile item
               Navigator.pushNamed(context, '/profile');
-            }
-            else if (index == 1) { // Index 1 is the Notifications item
+            } else if (index == 1) {
+              // Index 1 is the Notifications item
               Navigator.pushNamed(context, '/notifications');
             }
           },
           selectedItemColor: const Color(0xFF94A1DF),
           unselectedItemColor: Colors.grey,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.notifications_outlined), label: "Notifications"),
-            BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profile"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_outlined),
+              label: "Notifications",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              label: "Profile",
+            ),
           ],
         ),
       ),
@@ -217,13 +265,15 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
                     });
                   },
                   selectedColor: const Color(0xFF94A1DF),
-                  backgroundColor: _isDarkMode ? Colors.grey[800] : Colors.grey[200],
+                  backgroundColor: _isDarkMode
+                      ? Colors.grey[800]
+                      : Colors.grey[200],
                   labelStyle: TextStyle(
                     color: isSelected
                         ? Colors.white
                         : _isDarkMode
-                            ? Colors.white70
-                            : Colors.black,
+                        ? Colors.white70
+                        : Colors.black,
                   ),
                 ),
               );
@@ -239,7 +289,10 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
                     final item = filteredItems[index];
                     return Card(
                       color: _isDarkMode ? Colors.grey[900] : Colors.white,
-                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       elevation: 3,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -265,21 +318,34 @@ class _HomeFeedScreenState extends State<HomeFeedScreen>
                             const SizedBox(height: 4),
                             Chip(
                               label: Text(item['category']!),
-                              backgroundColor: const Color(0xFF94A1DF).withOpacity(0.2),
+                              backgroundColor: const Color(
+                                0xFF94A1DF,
+                              ).withOpacity(0.2),
                               labelStyle: const TextStyle(fontSize: 12),
                             ),
                             const SizedBox(height: 4),
                             const Text(
                               'Posted 2 hours ago',
-                              style: TextStyle(fontSize: 12, color: Colors.grey),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
                             ),
                           ],
                         ),
                         onTap: () {
                           if (tabName == "Found") {
-                            Navigator.pushNamed(context, '/item-detail', arguments: item);
+                            Navigator.pushNamed(
+                              context,
+                              '/item-detail',
+                              arguments: item,
+                            );
                           } else if (tabName == "Lost") {
-                            Navigator.pushNamed(context, '/lost-item-detail', arguments: item);
+                            Navigator.pushNamed(
+                              context,
+                              '/lost-item-detail',
+                              arguments: item,
+                            );
                           }
                         },
                       ),

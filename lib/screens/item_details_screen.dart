@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'in_app_chat_screen.dart';
 class FoundItemDetailScreen extends StatelessWidget {
   final Map<String, String> item;
 
@@ -116,20 +116,33 @@ class FoundItemDetailScreen extends StatelessWidget {
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Claim Item'),
+                    builder: (_) => AlertDialog(
+                      title: const Text("Claim This Item?"),
                       content: const Text(
-                        'Are you sure you want to claim this item?',
+                        "This will start a private chat with the person who found it.",
                       ),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text('Cancel'),
+                          child: const Text("Cancel"),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => InAppChatScreen(
+                                  itemTitle: item['title'] ?? 'Item',
+                                  otherUserName: item['poster'] ?? 'Finder',
+                                  autoFirstMessage:
+                                      "Hi! I believe this is my lost ${item['title'] ?? 'item'}. Can we arrange pickup? 💜",
+                                ),
+                              ),
+                            );
+                          },
                           child: const Text(
-                            'Confirm',
+                            "Yes, It's Mine",
                             style: TextStyle(color: Color(0xFF94A1DF)),
                           ),
                         ),

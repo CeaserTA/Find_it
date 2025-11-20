@@ -58,8 +58,7 @@ class _PostItemScreenState extends State<PostItemScreen> {
               primary: _primaryColor, // Header background color
               onPrimary: Colors.white, // Header text color
               onSurface: Colors.black87, // Date picker day text color
-            ),
-            dialogBackgroundColor: Colors.white,
+            ), dialogTheme: DialogThemeData(backgroundColor: Colors.white),
           ),
           child: child!,
         );
@@ -270,7 +269,7 @@ class _PostItemScreenState extends State<PostItemScreen> {
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
-          value: _selectedCategory,
+          initialValue: _selectedCategory,
           isExpanded: true,
           decoration: InputDecoration(
             hintText: 'Select category',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart'; 
 
 
 // to add a smooth fade in animation when navigating to HomeScreen

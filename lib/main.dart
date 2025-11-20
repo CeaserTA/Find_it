@@ -1,3 +1,4 @@
+import 'package:find_it/screens/about_screen.dart';
 import 'package:find_it/screens/home_screen.dart';
 import 'package:find_it/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,8 @@ import 'package:find_it/screens/item_details_screen.dart';
 import 'package:find_it/screens/lost_item_details_screen.dart';
 import 'package:find_it/screens/post_item_screen.dart';
 import 'package:find_it/screens/profile_screen.dart';
+import 'package:find_it/screens/help_screen.dart';
+import 'package:find_it/screens/settings.dart';
 import 'package:find_it/screens/notifications_screen.dart';
 
 void main() {
@@ -35,7 +38,9 @@ class MyApp extends StatelessWidget {
 
 
         '/notifications': (context) => const NotificationScreen(),
-        
+        '/about': (context)  => const AboutScreen(),
+        '/help': (context)  => const HelpScreen(),
+        '/settings': (context)  => const SettingsScreen(),
       },
       //home: HomeFeedScreen(),
 
