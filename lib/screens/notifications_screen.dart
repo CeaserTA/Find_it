@@ -5,12 +5,13 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const mainColor = Color(0xFF94A1DF); // Your app's main color
+    const mainColor = Color(0xFF42A5F5);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notifications"),
-        backgroundColor: mainColor,
+        backgroundColor: const Color(0xFF42A5F5),
+        foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
       ),
@@ -21,10 +22,10 @@ class NotificationScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image with white background
+            // Image with themed background
             Container(
               color: Colors.white,
-              padding: const EdgeInsets.all(10), // space around the image
+              padding: const EdgeInsets.all(10),
               child: Image.asset(
                 'assets/images/notification.jpg',
                 height: 250,
@@ -35,7 +36,7 @@ class NotificationScreen extends StatelessWidget {
             const SizedBox(height: 30),
 
             // Text
-            const Text(
+            Text(
               "No notifications yet",
               style: TextStyle(
                 fontSize: 20,
@@ -60,3 +61,4 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 }
+

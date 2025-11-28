@@ -11,6 +11,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
+  // New bright blue color for overall consistency
+  static const Color brightBlue = Color(0xFF42A5F5);
+
   @override
   void initState() {
     super.initState();
@@ -32,10 +35,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF667EEA);
-    const accentColor = Color(0xFF667EEA);
+    const primaryColor = brightBlue;
+    
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
       body: CustomScrollView(
         slivers: [
           // Gradient App Bar with Profile Header
@@ -43,9 +47,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             expandedHeight: 320,
             floating: false,
             pinned: true,
-            backgroundColor: const Color(0xFF667EEA),
+            backgroundColor: primaryColor, 
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
+                // Ensure the background container uses the new color
                 color: primaryColor,
                 child: SafeArea(
                   child: FadeTransition(
@@ -78,7 +83,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 child: const CircleAvatar(
                                   radius: 63,
                                   backgroundColor: Colors.white,
-                                  backgroundImage: AssetImage('assets/images/profile.jpg'),
+                                  // Placeholder image asset, ensure it exists in your project
+                                  backgroundImage: AssetImage('assets/images/profile.jpg'), 
                                 ),
                               ),
                               Positioned(
@@ -105,7 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     child: const Icon(
                                       Icons.camera_alt_rounded,
                                       size: 20,
-                                      color: Color(0xFF667EEA),
+                                      // Updated camera icon color
+                                      color: primaryColor,
                                     ),
                                   ),
                                 ),
@@ -139,47 +146,19 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             ),
                           ],
                         ),
-
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.arrow_back_ios_new, 
-                      size: 18, color: Colors.white),
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
+            // Updated leading/actions for simple icons
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, 
+                  size: 24, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
             ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton(
-                  icon: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(Icons.settings_rounded, 
-                        size: 20, color: Colors.white),
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ],
+            
           ),
 
           // Content
@@ -212,7 +191,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             label: 'Claimed',
                             color: const Color(0xFF4ECB71),
                           ),
-
                         ],
                       ),
                     ),
@@ -227,7 +205,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           icon: Icons.person_outline_rounded,
                           title: 'Edit Profile',
                           subtitle: 'Update your information',
-                          color: const Color(0xFF667EEA),
+                          // Updated Edit Profile color
+                          color: brightBlue, 
                           onTap: () {},
                         ),
                         _MenuItem(
@@ -295,9 +274,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.1),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
+              color: Colors.black.withOpacity(0.1), // Increased shadow opacity
+              blurRadius: 15, // Increased blur radius
+              offset: const Offset(0, 10), // Increased vertical offset for better lift
             ),
           ],
         ),
@@ -448,50 +427,35 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   }
 
   Widget _buildLogoutButton(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () => _showLogoutDialog(context),
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          decoration: BoxDecoration(
-            color: Colors.white,
+    return SizedBox(
+      width: double.infinity, // Make the button take full width
+      child: ElevatedButton(
+        onPressed: () => _showLogoutDialog(context),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.red,
+          elevation: 0, 
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.red.withOpacity(0.2), width: 1.5),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.red.withOpacity(0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            side: const BorderSide(color: Colors.red, width: 1.5), // Simple red border
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.logout_rounded, 
-                    color: Colors.red, size: 22),
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.logout_rounded, color: Colors.red, size: 22), // Red icon
+            SizedBox(width: 12),
+            Text(
+              'Logout',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: Colors.red, // Red text
+                letterSpacing: 0.5,
               ),
-              const SizedBox(width: 12),
-              const Text(
-                'Logout',
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -500,124 +464,98 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
+      barrierDismissible: true, // Allow dismissal by tapping outside
+      builder: (context) => AlertDialog( // Changed to AlertDialog for simplification
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(20),
         ),
-        elevation: 10,
-        child: Container(
-          padding: const EdgeInsets.all(28),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.logout_rounded,
-                  color: Colors.red,
-                  size: 40,
-                ),
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Logout',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Are you sure you want to log out of your account?',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.grey[600],
-                  height: 1.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 28),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        side: BorderSide(color: Colors.grey[300]!),
-                      ),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Row(
-                              children: [
-                                const Icon(Icons.check_circle, 
-                                    color: Colors.white),
-                                const SizedBox(width: 12),
-                                const Text('Logged out successfully!'),
-                              ],
-                            ),
-                            backgroundColor: Colors.red,
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            margin: const EdgeInsets.all(16),
-                          ),
-                        );
-                        // TODO: Add logout logic
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      child: const Text(
-                        'Logout',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+        title: const Text(
+          'Confirm Logout',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
           ),
         ),
+        content: const Text(
+          'Are you sure you want to log out of your account?',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.grey,
+            height: 1.5,
+          ),
+        ),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            ),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                color: Colors.black54,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final navigator = Navigator.of(context);
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              
+              navigator.pop(); // Close dialog
+              
+              // Show logout success message
+              scaffoldMessenger.showSnackBar(
+                SnackBar(
+                  content: const Row(
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.white),
+                      SizedBox(width: 12),
+                      Text('Logged out successfully!'),
+                    ],
+                  ),
+                  backgroundColor: Colors.green,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  margin: const EdgeInsets.all(16),
+                  duration: const Duration(seconds: 1),
+                ),
+              );
+              
+              // Navigate to signin screen after a short delay
+              Future.delayed(const Duration(milliseconds: 1500), () {
+                navigator.pushNamedAndRemoveUntil(
+                  '/signin',
+                  (route) => false,
+                );
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text(
+              'Logout',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -638,3 +576,4 @@ class _MenuItem {
     required this.onTap,
   });
 }
+

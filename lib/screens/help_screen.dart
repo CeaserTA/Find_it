@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
 
-  final Color _mainColor = const Color(0xFF94A1DF);
+  final Color _mainColor = const Color(0xFF42A5F5);
 
   final List<Map<String, String>> _faqs = const [
     {
@@ -42,7 +42,7 @@ class HelpScreen extends StatelessWidget {
           style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -188,7 +188,7 @@ class _FeedbackForm extends StatefulWidget {
 
 class _FeedbackFormState extends State<_FeedbackForm> {
   final TextEditingController _controller = TextEditingController();
-  final Color _mainColor = const Color(0xFF94A1DF);
+  final Color _mainColor = const Color(0xFF42A5F5);
   bool _isSending = false;
 
   Future<void> _sendFeedback() async {

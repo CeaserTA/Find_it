@@ -9,9 +9,11 @@ import 'package:find_it/screens/profile_screen.dart';
 import 'package:find_it/screens/help_screen.dart';
 import 'package:find_it/screens/settings.dart';
 import 'package:find_it/screens/notifications_screen.dart';
+import 'package:find_it/screens/signin_screen.dart';
+import 'package:find_it/screens/signup_screen.dart';
 
 void main() {
-  runApp( const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,28 +24,43 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Find-it",
-      theme: ThemeData(primarySwatch: Colors.blue),
-
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: const Color(0xFF42A5F5),
+        scaffoldBackgroundColor: const Color(0xFFF8F9FA),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black87,
+          elevation: 0,
+        ),
+        cardTheme: CardThemeData(
+          color: Colors.white,
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
       initialRoute: '/',
       routes: {
-        '/': (context) =>  SplashScreen(), 
-        '/home': (context) =>  HomeFeedScreen(), 
-
-        '/item-detail': (context) =>  FoundItemDetailScreen(item: ModalRoute.of(context)!.settings.arguments as Map<String, String>), 
-        '/lost-item-detail': (context) =>  LostItemDetailScreen(item: ModalRoute.of(context)!.settings.arguments as Map<String, String>),
-        '/profile': (context) =>  ProfileScreen(),
-
-        '/post-item': (context) => PostItemScreen(
-            tab: ModalRoute.of(context)!.settings.arguments as String?), 
-
-
+        '/': (context) => SplashScreen(),
+        '/signin': (context) => const SignInScreen(),
+        '/signup': (context) => const SignUpScreen(),
+        '/home': (context) => HomeFeedScreen(),
+        '/item-detail': (context) => FoundItemDetailScreen(
+            item: ModalRoute.of(context)!.settings.arguments
+                as Map<String, String>),
+        '/lost-item-detail': (context) => LostItemDetailScreen(
+            item: ModalRoute.of(context)!.settings.arguments
+                as Map<String, String>),
+        '/profile': (context) => ProfileScreen(),
+        '/post-item': (context) =>
+            PostItemScreen(tab: ModalRoute.of(context)!.settings.arguments as String?),
         '/notifications': (context) => const NotificationScreen(),
-        '/about': (context)  => const AboutScreen(),
-        '/help': (context)  => const HelpScreen(),
-        '/settings': (context)  => const SettingsScreen(),
+        '/about': (context) => const AboutScreen(),
+        '/help': (context) => const HelpScreen(),
+        '/settings': (context) => const SettingsScreen(),
       },
-      //home: HomeFeedScreen(),
-
     );
   }
 }

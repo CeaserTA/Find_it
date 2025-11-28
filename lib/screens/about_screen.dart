@@ -61,7 +61,7 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const mainColor = Color(0xFF94A1DF);
+    const mainColor = Color(0xFF42A5F5);
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? Colors.black : Colors.grey[50]; // Lighter background for less contrast

@@ -20,7 +20,7 @@ class InAppChatScreen extends StatefulWidget {
 class _InAppChatScreenState extends State<InAppChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, dynamic>> _messages = [];
-  final Color mainColor = const Color(0xFF94A1DF);
+  final Color mainColor = const Color(0xFF42A5F5);
 
   @override
   void initState() {
